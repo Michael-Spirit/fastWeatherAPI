@@ -1,0 +1,13 @@
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.towncrier]
+package = "."
+single_file = false
+filename = "{version}-notes.rst"
+directory= "release_notes"
+name = "fast Weather API"
+title_format = "{name} {version} ({project_date})"
+issue_format = "LM-{issue}"
+wrap = false
+all_bullets = true

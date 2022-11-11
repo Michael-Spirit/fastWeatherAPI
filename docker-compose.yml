@@ -1,0 +1,44 @@
+version: '3.10'
+
+volumes:
+  cache:
+    driver: local
+  redis:
+    driver: local
+
+
+networks:
+  lf-microservices:
+    name: lf_microservices_network
+  local-network:
+    driver: bridge
+
+services:
+  redis:
+    image: library/redis:6.0
+    volumes:
+      - redis:/data
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    networks:
+      - local-network
+
+  fast_weather_api:
+    build: .
+    environment:
+      DEBUG: "on"
+      ENVIRONMENT: development
+      PRE_COMMIT_HOME: /cache/.pre-commit
+      PROJECT_NAME: fast Weather API
+    volumes:
+      - .:/app:delegated
+      - cache:/cache:delegated
+    command: uvicorn apps.app:app --host 0.0.0.0 --reload
+    ports:
+      - "8001:8000"
+    depends_on:
+      - redis
+    networks:
+      - lf-microservices
+      - local-network

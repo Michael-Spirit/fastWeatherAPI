@@ -1,0 +1,4 @@
+include:
+  project: 'trueqc/infrastructure/leadmachine-devops'
+  file: '.devops/microservices/.gitlab-ci.yml'
+  ref: devops
