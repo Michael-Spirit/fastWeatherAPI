@@ -34,4 +34,4 @@ async def setup_redis():
     yield
 
     async with Cache() as cache:
-        await cache.clear()
+        await cache.flush()

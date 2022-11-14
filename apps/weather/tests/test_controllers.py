@@ -25,6 +25,6 @@ async def test_weather_api_endpoint_hard_refresh(client, request_weather_data_mo
 
     request_weather_data_mock.assert_called_once()
 
-    await client.get(client.app.url_path_for('get_weather_by_zipcode', zipcode='12345', force_update=True))
+    await client.get(client.app.url_path_for('get_weather_by_zipcode', zipcode='12345'), params={'force_update': True})
 
     assert request_weather_data_mock.call_count == 2

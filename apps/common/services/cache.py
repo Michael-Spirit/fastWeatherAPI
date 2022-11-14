@@ -67,3 +67,7 @@ class Cache:
         if self._backend:
             namespace = self._prefix + ':' + namespace if namespace else None
             return await self._backend.clear(namespace, key)
+
+    async def flush(self):
+        if self._backend:
+            return await self._backend.redis.eval("redis.call('FLUSHALL');", numkeys=0)

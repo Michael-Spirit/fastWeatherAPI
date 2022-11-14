@@ -26,6 +26,7 @@ ljust
 middlewares
 nanoid
 nosec
+numkeys
 openapi
 openmetrics
 orm

@@ -9,12 +9,15 @@ from pydantic import SecretStr
 from pydantic import validator
 
 from apps.common.services.env_loader import AwsSecretsManagerLoader
+from config.constants import BASE_DIR
 from config.constants import DEVELOPMENT_ENVIRONMENT
 from config.constants import TESTING_ENVIRONMENT
 
 
 class Settings(BaseSettings):
     class Config:
+        env_file = BASE_DIR / '.env'
+        env_file_encoding = 'utf-8'
         case_sensitive = True
 
     PROJECT_NAME = ''
@@ -153,8 +156,7 @@ class Settings(BaseSettings):
     JWT_EXPIRES_IN_SECONDS: int = 60 * 60
 
     # OpenWeatherMap
-    # TODO move it to env
-    OPEN_WEATHER_MAP_API_KEY = '655dfc390726be35679ee1f171b45301'
+    OPEN_WEATHER_MAP_API_KEY: str = Field()
 
     # Cache
     REDIS_URL: str = Field(default='redis://redis:6379')

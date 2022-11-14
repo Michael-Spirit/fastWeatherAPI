@@ -1,172 +1,177 @@
 <!DOCTYPE html>
 <head>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   <meta name="description" content="">
-   <meta name="author" content="">
-   <link rel="icon" href="../../../../favicon.ico">
-   <title>Narrow Jumbotron Template for Bootstrap</title>
-   <!-- Bootstrap core CSS -->
-   <link href="https://bootsnipp.com/bootstrap-builder/css/editor.css" rel="stylesheet">
-   <!-- Custom styles for this template -->
-   <link href="https://bootsnipp.com/bootstrap-builder/demo/narrow-jumbotron/narrow-jumbotron.css" rel="stylesheet">
-   <style type="text/css">.c1-ui-state-hover {background-color:yellow !important; padding:5px !important }</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+    <title>Narrow Jumbotron Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://bootsnipp.com/bootstrap-builder/css/editor.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="https://bootsnipp.com/bootstrap-builder/demo/narrow-jumbotron/narrow-jumbotron.css" rel="stylesheet">
+    <style type="text/css">.c1-ui-state-hover {
+        background-color: yellow !important;
+        padding: 5px !important
+    }</style>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 <body>
-   <div class="container" id="app">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light" style="">
-         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">     <span class="navbar-toggler-icon"></span>     </button>
-         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+<div class="container" id="app">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+            class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-               <li class="nav-item active"></li>
-               <li class="nav-item"></li>
-               <li class="nav-item"></li>
+                <li class="nav-item active"></li>
+                <li class="nav-item"></li>
+                <li class="nav-item"></li>
             </ul>
             <form @submit.prevent="get_weather(false)" class="form-inline my-2 my-lg-0">
-                <input v-model="zipcode" class="form-control mr-sm-2" type="text" placeholder="Zip Code" aria-label="Zip Code">
+                <input v-model="zipcode" class="form-control mr-sm-2" type="text" placeholder="Zip Code"
+                       aria-label="Zip Code">
                 <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
             </form>
-         </div>
-      </nav>
-      <footer class="footer">
+        </div>
+    </nav>
+    <footer class="footer">
 
-         <ul v-if="favorites.length !== 0" class="list-group" style="">
+        <ul v-if="favorites.length !== 0" class="list-group" style="">
             <li class="list-group-item" v-for="(item, index) in favorites">
                 <div style="display: flex; flex-direction: row; justify-content: space-between">
-                    <div @click="show_favorite_details(index)">{{ '{{ item.location_name }}' }} ({{ '{{ item.zipcode }}' }})</div>
-                    <button type="button" @click="deleteFromList(index)"  class="btn btn-default" style="display: inline; float: right;">X</button>
+                    <div @click="show_favorite_details(index)">{{ '{{ item.location_name }}' }} ({{ '{{ item.zipcode }}'
+                        }})
+                    </div>
+                    <button type="button" @click="deleteFromList(index)" class="btn btn-default"
+                            style="display: inline; float: right;">X
+                    </button>
                 </div>
             </li>
-         </ul>
-          <div v-else>
-              No favorites so far...
-          </div>
+        </ul>
+        <div v-else>
+            No favorites so far...
+        </div>
 
-         <p contenteditable="true" spellcheckker="false">
-         <div class="card" style="margin-top: 30px;">
+        <p contenteditable="true" spellcheckker="false">
+        <div class="card" style="margin-top: 30px;">
             <div v-if="fetched_weather" class="card" style="margin-top: 0px;">
-               <div class="card-body" style="margin-top: 0px;">
-                  <h4 class="card-title" style="display: flex; flex-direction: row; justify-content: space-between">
-                     <b>{{ '{{ fetched_weather.location_name }}' }}</b>
-                      <b style="cursor: pointer" @click="get_weather(true)">&#8635;</b>
-                  </h4>
-                  <div class="row" style="">
+                <div class="card-body" style="margin-top: 0px;">
+                    <h4 class="card-title" style="display: flex; flex-direction: row; justify-content: space-between">
+                        <b>{{ '{{ fetched_weather.location_name }}' }}</b>
+                        <b v-if="favorites.includes(fetched_weather)" style="cursor: pointer"
+                           @click="get_weather(true)">&#8635;</b>
+                    </h4>
+                    <div class="row" style="">
                         <div class="col-sm-4">
-                           <h1>
-                              {{ '{{ calculated_temperature }}' }}°
-                              <h6 style="">{{ '{{ fetched_weather.main_description }}' }}</h6>
-                           </h1>
+                            <h1>
+                                {{ '{{ calculated_temperature }}' }}°
+                                <h6 style="">{{ '{{ fetched_weather.main_description }}' }}</h6>
+                            </h1>
                         </div>
                         <div class="col-sm-4 col-5">
-                           <h3></h3>
+                            <h3></h3>
                         </div>
                         <div class="col-sm-4">
-                           <h5 style="">Precipitation {{ '{{ fetched_weather.precipitation }}' }}%</h5>
-                           <h5 style="">Humidity {{ '{{ fetched_weather.humidity }}' }}%</h5>
-                           <h5 style="">Wind {{ '{{ fetched_weather.wind }}' }} mph</h5>
-                           <div class="row" style="">
-                              <div class="col-sm-4"></div>
-                              <div class="col-sm-4 col-5"></div>
-                              <div class="col-sm-4"></div>
-                           </div>
+                            <h5 style="">Precipitation {{ '{{ fetched_weather.precipitation }}' }}%</h5>
+                            <h5 style="">Humidity {{ '{{ fetched_weather.humidity }}' }}%</h5>
+                            <h5 style="">Wind {{ '{{ fetched_weather.wind }}' }} mph</h5>
+                            <div class="row" style="">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4 col-5"></div>
+                                <div class="col-sm-4"></div>
+                            </div>
                         </div>
-                     </div>
-                      <a href="#" @click="addItem()" class="btn btn-primary">Add to favorites</a>
-               </div>
+                    </div>
+                    <a href="#" @click="addItem()" class="btn btn-primary">Add to favorites</a>
+                </div>
             </div>
-         </div>
-         © Firstly NodeJS 2021</p>
-      </footer>
-   </div>
+        </div>
+    </footer>
+</div>
 
-   <script>
-       const { createApp } = Vue
+<script>
+    const {createApp} = Vue
 
-       createApp({
-           data() {
-               return {
-                   zipcode: "",
-                   fetched_weather: null,
-                   favorites: []
-               };
-           },
-           mounted() {
-               if (localStorage.getItem('favorites')) {
-                   try {
-                       this.favorites = JSON.parse(localStorage.getItem('favorites'));
-                   } catch (e) {
-                       localStorage.removeItem('favorites');
-                   }
-               }
-           },
-           methods: {
-               deleteFromList(index) {
-                   this.favorites.splice(index, 1);
-                   this.update_favorites();
-               },
-               addItem() {
-                   if (this.fetched_weather.zipcode === undefined || this.fetched_weather.zipcode === "") {
-                       this.fetched_weather.zipcode = this.zipcode;
-                   }
-                   if (this.favorites.includes(this.fetched_weather)) {
-                       alert("Already in favorites");
-                       return;
-                   }
+    createApp({
+        data() {
+            return {
+                zipcode: "",
+                fetched_weather: null,
+                favorites: []
+            };
+        },
+        mounted() {
+            if (localStorage.getItem('favorites')) {
+                try {
+                    this.favorites = JSON.parse(localStorage.getItem('favorites'));
+                } catch (e) {
+                    localStorage.removeItem('favorites');
+                }
+            }
+        },
+        methods: {
+            deleteFromList(index) {
+                this.favorites.splice(index, 1);
+                this.update_favorites();
+            },
+            addItem() {
+                if (this.fetched_weather.zipcode === undefined || this.fetched_weather.zipcode === "") {
+                    this.fetched_weather.zipcode = this.zipcode;
+                }
+                if (this.favorites.includes(this.fetched_weather)) {
+                    alert("Already in favorites");
+                    return;
+                }
 
-                   this.favorites.push(this.fetched_weather);
-                   this.update_favorites();
-               },
-               show_favorite_details(index) {
-                      this.fetched_weather = this.favorites[index];
-               },
-               update_favorites() {
-                   const parsed_favorites = JSON.stringify(this.favorites);
-                   localStorage.setItem('favorites', parsed_favorites);
-               },
-               get_weather(force_update) {
-                   let app = this;
+                this.favorites.push(this.fetched_weather);
+                this.update_favorites();
+            },
+            show_favorite_details(index) {
+                this.fetched_weather = this.favorites[index];
+            },
+            update_favorites() {
+                const parsed_favorites = JSON.stringify(this.favorites);
+                localStorage.setItem('favorites', parsed_favorites);
+            },
+            get_weather(force_update) {
+                let app = this;
 
-                   let url = 'http://0.0.0.0:8001/api/weather/'
+                let url = 'http://0.0.0.0:8001/api/weather/'
 
-                   if (force_update) {
-                       url = url + this.fetched_weather.zipcode + '?force_update=True';
-                   } else {
-                       url = url + this.zipcode;
-                   }
+                if (force_update) {
+                    url = url + this.fetched_weather.zipcode + '?force_update=True';
+                } else {
+                    url = url + this.zipcode;
+                }
 
-                   axios({
-                       method: 'get',
-                       url: url,
-                   }).then(function (response) {
-                       app.fetched_weather = response.data;
-                   }).catch(function (response) {
-                       alert(response.response.data);
-                   });
+                axios({
+                    method: 'get',
+                    url: url,
+                }).then(function (response) {
+                    app.fetched_weather = response.data;
+                }).catch(function (response) {
+                    alert(response.response.data.detail);
+                });
 
-                   if (force_update) this.update_favorites();
-               }
-           },
-           computed: {
-               calculated_temperature() {
-                   // fahrengheit
-                   let f = ((this.fetched_weather.temperature - 273.15) * (9/5) + 32).toFixed(0);
-                   // celsius
-                   let c = (this.fetched_weather.temperature - 273.15).toFixed(0);
+                this.update_favorites();
+            }
+        },
+        computed: {
+            calculated_temperature() {
+                // fahrenheit
+                let f = ((this.fetched_weather.temperature - 273.15) * (9 / 5) + 32).toFixed(0);
+                // celsius
+                let c = (this.fetched_weather.temperature - 273.15).toFixed(0);
 
-                   return f;
-               }
-           }
-       }).mount('#app');
-   </script>
-
-
-   <!-- /container -->
+                return f;
+            }
+        }
+    }).mount('#app');
+</script>
+<!-- /container -->
 </body>
-
-
-
 </html>

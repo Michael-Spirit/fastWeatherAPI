@@ -1,4 +1,3 @@
-from contextlib import contextmanager
 from typing import Dict
 
 from fastapi import FastAPI
@@ -11,11 +10,6 @@ class TestClient:
     def __init__(self, app: FastAPI):
         self.app = app
         self.headers: Dict[str, str] = {}
-
-    @contextmanager
-    def force_client_auth(self):
-        # TODO:
-        yield
 
     async def get(self, *args, **kwargs):
         async with AsyncClient(app=self.app, base_url=self.base_url) as async_client:

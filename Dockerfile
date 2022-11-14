@@ -9,6 +9,7 @@ COPY requirements /app/requirements
 
 RUN pip install --upgrade pip
 RUN pip install bpython
+RUN pip install ipython
 RUN pip install -r requirements/development.txt --no-cache-dir
 
 COPY . /app
